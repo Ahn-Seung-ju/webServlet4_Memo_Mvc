@@ -4,61 +4,60 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-		//비동기를 사용해서 (xmlHttpRequest) id 검증
-		//http://localhost:8080/webServlet4_Memo_Mvc/Memoid?id=hon
-		//받은 결과가: "false" alert("사용불가")
-		//받은 결과가: "true" alert("사용가능")
-		var httpReq=null;
-	
-	function getInstance(){
-		  if(window.XMLHttpRequest){
-			  httpReq = new XMLHttpRequest(); //현재 브라우져 XMLHttpRequest 내장
-		  }else if(window.ActiveXObject){ //IE6 이하   //지금 필요없어요
-			  httpReq = new ActiveXObject("Msxml2.XMLHTTP");
-		  }else{
-			 throw new Error("AJAX 지원하지 않습니다"); 
-		  }
-		return httpReq;  
-	}
-	window.onload = function(){
-		 document.getElementById("message").addEventListener("click",function(){
-			 let data =document.getElementById("id").value;
-			 sendData(data);
+	//비동기를 사용해서 (xmlHttpRequest) id 검증
+	//http://localhost:8080/webServlet4_Memo_Mvc/Memoid?id=hon
+	//받은 결과가: "false" alert("사용불가")
+	//받은 결과가: "true" alert("사용가능")
+	window.onload = function() {
+		document.getElementById("message").addEventListener("click",
+				function() {
+					let data = document.getElementById("id").value;
+					sendData(data);
 
-		 });
+				});
 	}
-	
-	
-	function handlerStateChange(){
-		 if(httpReq.readyState == 4){ //1. 서버에서 응답이 왔다면
-			 if(httpReq.status >= 200 && httpReq.status < 300){
+	var httpReq = null;
+
+	function getInstance() {
+		if (window.XMLHttpRequest) {
+			httpReq = new XMLHttpRequest(); //현재 브라우져 XMLHttpRequest 내장
+		} else if (window.ActiveXObject) { //IE6 이하   //지금 필요없어요
+			httpReq = new ActiveXObject("Msxml2.XMLHTTP");
+		} else {
+			throw new Error("AJAX 지원하지 않습니다");
+		}
+		return httpReq;
+	}
+
+	function handlerStateChange() {
+		if (httpReq.readyState == 4) { //1. 서버에서 응답이 왔다면
+			if (httpReq.status >= 200 && httpReq.status < 300) {
 				//가공
 				//Text
 				//Xml
-				
+
 				let check = httpReq.responseText;
-				if(check==="false"){
+				if (check === "false") {
 					alert("사용불가");
-				}else{
+				} else {
 					alert("사용가능");
 				}
 				//let check = request.getAttribute("check");
-				
+
 				console.log(httpReq.responseText);
-				
-				
-			 }else{
-				 alert("status Text : " + httpReq.status);
-			 }
-		 }
+
+			} else {
+				alert("status Text : " + httpReq.status);
+			}
+		}
 	}
-	function sendData(data){
+	function sendData(data) {
 		httpReq = getInstance();
-		httpReq.onreadystatechange = handlerStateChange;  // x >> ()
-		httpReq.open("GET","Memoid?id="+data); //form 태그 구성
+		httpReq.onreadystatechange = handlerStateChange; // x >> ()
+		httpReq.open("GET", "Memoid?id=" + data); //form 태그 구성
 		httpReq.send(); // form submit 버튼 클릭
 	}
-	</script>
+</script>
 </head>
 <body>
 	<div style="margin-top: 70px;"></div>
@@ -73,11 +72,8 @@
 				</tr>
 				<tr>
 					<td width="25%" align="center"><b>ID</b></td>
-					<td><input type="text" size="40" name="id" maxlength="10" id = "id">
-						<input type="button" value="ID 확인" id="message"></td>
-
-
-
+					<td><input type="text" size="40" name="id" maxlength="10"
+						id="id"> <input type="button" value="ID 확인" id="message"></td>
 				</tr>
 				<tr>
 					<td width="25%" align="center"><b>EMAIL</b></td>
